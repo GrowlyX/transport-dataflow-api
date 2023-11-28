@@ -8,7 +8,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.21"
 }
 
-group = "gg.growly.dataflow"
+group = "io.liftgate.bus.dataflow"
 version = "0.0.1"
 
 application {

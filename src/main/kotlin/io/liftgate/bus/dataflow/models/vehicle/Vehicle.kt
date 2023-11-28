@@ -1,4 +1,4 @@
-package gg.growly.models.vehicle
+package io.liftgate.bus.dataflow.models.vehicle
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

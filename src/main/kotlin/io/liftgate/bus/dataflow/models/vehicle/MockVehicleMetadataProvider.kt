@@ -1,4 +1,4 @@
-package gg.growly.models.vehicle
+package io.liftgate.bus.dataflow.models.vehicle
 
 /**
  * @author GrowlyX
@@ -6,8 +6,8 @@ package gg.growly.models.vehicle
  */
 class MockVehicleMetadataProvider : VehicleMetadataProvider
 {
-    override fun getVehicles() = listOf(
-        Vehicle(
+    override fun getCachedVehicles() = mapOf(
+        "hors" to Vehicle(
             vehicleId = "hors",
             segmentId = "hors",
             routeId = "wonky",

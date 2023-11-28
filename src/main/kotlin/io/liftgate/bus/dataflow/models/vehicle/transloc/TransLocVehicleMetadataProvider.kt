@@ -1,8 +1,8 @@
-package gg.growly.models.vehicle.transloc
+package io.liftgate.bus.dataflow.models.vehicle.transloc
 
-import gg.growly.models.vehicle.Vehicle
-import gg.growly.models.vehicle.VehicleMetadataProvider
-import gg.growly.plugins.json
+import io.liftgate.bus.dataflow.models.vehicle.Vehicle
+import io.liftgate.bus.dataflow.models.vehicle.VehicleMetadataProvider
+import io.liftgate.bus.dataflow.plugins.json
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -34,9 +34,9 @@ class TransLocVehicleMetadataProvider(
     }
 
     private var cacheMutBlock = Any()
-    private val localVehicleCache = mutableListOf<Vehicle>()
+    private val localVehicleCache = mutableMapOf<String, Vehicle>()
 
-    override fun getVehicles() = synchronized(cacheMutBlock) { localVehicleCache }
+    override fun getCachedVehicles() = synchronized(cacheMutBlock) { localVehicleCache }
 
     override suspend fun repopulateVehicleCache()
     {
@@ -50,6 +50,7 @@ class TransLocVehicleMetadataProvider(
             localVehicleCache.clear()
             localVehicleCache += response.data.values
                 .reduce { acc, vehicles -> acc + vehicles }
+                .associateBy { it.vehicleId }
         }
     }
 

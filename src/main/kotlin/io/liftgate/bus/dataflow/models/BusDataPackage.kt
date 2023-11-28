@@ -1,4 +1,4 @@
-package gg.growly.models
+package io.liftgate.bus.dataflow.models
 
 import kotlinx.serialization.Serializable
 
@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
  * @since 11/27/2023
  */
 @Serializable
-data class BusVehicleDataPackage(
+data class BusDataPackage(
     val busId: String,
     val humansDetected: Int
 )

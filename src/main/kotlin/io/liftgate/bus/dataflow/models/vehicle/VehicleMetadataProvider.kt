@@ -1,4 +1,4 @@
-package gg.growly.models.vehicle
+package io.liftgate.bus.dataflow.models.vehicle
 
 /**
  * @author GrowlyX
@@ -7,7 +7,7 @@ package gg.growly.models.vehicle
 interface VehicleMetadataProvider
 {
     suspend fun repopulateVehicleCache()
-    fun getVehicles(): List<Vehicle>
+    fun getCachedVehicles(): Map<String, Vehicle>
 
     fun dispose()
     {
