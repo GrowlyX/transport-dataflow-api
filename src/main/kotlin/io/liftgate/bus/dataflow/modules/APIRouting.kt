@@ -12,23 +12,31 @@ fun Application.configureRouting()
 {
     routing {
         route("/api/v1/") {
-            post("submit-data-package/") {
-                val dataPackage = context.receive<BusDataPackage>()
-                val matchingVehicle = vehicleMetadataProvider.getCachedVehicles()[dataPackage.busId]
-                    ?: return@post call.respond(mapOf(
-                        "error" to "no vehicle metadata found for bus ${dataPackage.busId}"
+            route("/datastore/") {
+                get("/recent-events/") {
+                    // TODO
+                }
+            }
+
+            route("/dataflow/") {
+                post("submit-data-package/") {
+                    val dataPackage = context.receive<BusDataPackage>()
+                    val matchingVehicle = vehicleMetadataProvider.getCachedVehicles()[dataPackage.busId]
+                        ?: return@post call.respond(mapOf(
+                            "error" to "no vehicle metadata found for bus ${dataPackage.busId}"
+                        ))
+
+                    collection.insertOne(TransportationEvent(
+                        busId = dataPackage.busId,
+                        timestamp = System.currentTimeMillis(),
+                        geolocation = matchingVehicle.location,
+                        passengerData = mapOf(
+                            "passengers" to "${dataPackage.humansDetected}"
+                        )
                     ))
 
-                collection.insertOne(TransportationEvent(
-                    busId = dataPackage.busId,
-                    timestamp = System.currentTimeMillis(),
-                    geolocation = matchingVehicle.location,
-                    passengerData = mapOf(
-                        "passengers" to "${dataPackage.humansDetected}"
-                    )
-                ))
-
-                call.respond(mapOf("success" to "true"))
+                    call.respond(mapOf("success" to "true"))
+                }
             }
         }
     }
