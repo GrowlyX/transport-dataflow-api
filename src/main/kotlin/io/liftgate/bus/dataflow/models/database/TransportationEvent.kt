@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  * @since 11/27/2023
  */
 @Serializable
-data class TransportationData(
+data class TransportationEvent(
     @SerialName("_id")
     val busId: String,
     val timestamp: Long,

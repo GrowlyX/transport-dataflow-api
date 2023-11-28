@@ -4,7 +4,7 @@ import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoCollection
 import io.ktor.server.application.*
 import io.ktor.server.config.*
-import io.liftgate.bus.dataflow.models.database.TransportationData
+import io.liftgate.bus.dataflow.models.database.TransportationEvent
 import org.litote.kmongo.getCollection
 import org.litote.kmongo.serialization.SerializationClassMappingTypeService
 
@@ -12,7 +12,7 @@ import org.litote.kmongo.serialization.SerializationClassMappingTypeService
  * @author GrowlyX
  * @since 11/27/2023
  */
-lateinit var collection: MongoCollection<TransportationData>
+lateinit var collection: MongoCollection<TransportationEvent>
 
 fun Application.configureMongoDatabase()
 {
@@ -31,7 +31,7 @@ fun Application.configureMongoDatabase()
             ?: throw IllegalStateException("No database name defined")
     )
 
-    collection = database.getCollection<TransportationData>(
+    collection = database.getCollection<TransportationEvent>(
         config.tryGetString("collection")
             ?: throw IllegalStateException("No collection name defined")
     )

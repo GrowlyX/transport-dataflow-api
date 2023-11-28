@@ -5,7 +5,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.liftgate.bus.dataflow.models.BusDataPackage
-import io.liftgate.bus.dataflow.models.database.TransportationData
+import io.liftgate.bus.dataflow.models.database.TransportationEvent
 import io.liftgate.bus.dataflow.vehicleMetadataProvider
 
 fun Application.configureRouting()
@@ -19,7 +19,7 @@ fun Application.configureRouting()
                         "error" to "no vehicle metadata found for bus ${dataPackage.busId}"
                     ))
 
-                collection.insertOne(TransportationData(
+                collection.insertOne(TransportationEvent(
                     busId = dataPackage.busId,
                     timestamp = System.currentTimeMillis(),
                     geolocation = matchingVehicle.location,
