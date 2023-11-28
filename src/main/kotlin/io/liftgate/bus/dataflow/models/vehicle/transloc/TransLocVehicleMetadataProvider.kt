@@ -2,7 +2,7 @@ package io.liftgate.bus.dataflow.models.vehicle.transloc
 
 import io.liftgate.bus.dataflow.models.vehicle.Vehicle
 import io.liftgate.bus.dataflow.models.vehicle.VehicleMetadataProvider
-import io.liftgate.bus.dataflow.plugins.json
+import io.liftgate.bus.dataflow.modules.json
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*

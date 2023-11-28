@@ -5,6 +5,11 @@ ktor:
   deployment:
     port: 8080
 
+mongo:
+  connection-uri: "mongodb://localhost"
+  database: "transport-dataflow"
+  collection: "timeseries"
+
 bus:
   trans-loc:
     agency: 16

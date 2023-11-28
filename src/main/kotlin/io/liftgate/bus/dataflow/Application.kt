@@ -2,10 +2,10 @@ package io.liftgate.bus.dataflow
 
 import io.ktor.server.application.*
 import io.liftgate.bus.dataflow.models.vehicle.VehicleMetadataProvider
-import io.liftgate.bus.dataflow.plugins.configureMonitoring
-import io.liftgate.bus.dataflow.plugins.configureRouting
-import io.liftgate.bus.dataflow.plugins.configureSerialization
-import io.liftgate.bus.dataflow.plugins.configureVehicleMetadataProvider
+import io.liftgate.bus.dataflow.modules.configureMonitoring
+import io.liftgate.bus.dataflow.modules.configureRouting
+import io.liftgate.bus.dataflow.modules.configureSerialization
+import io.liftgate.bus.dataflow.modules.configureVehicleMetadataProvider
 
 lateinit var vehicleMetadataProvider: VehicleMetadataProvider
 
