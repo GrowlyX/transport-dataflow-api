@@ -8,7 +8,6 @@ ktor:
 mongo:
   connection-uri: "mongodb://localhost"
   database: "transport-dataflow"
-  collection: "eventlog"
 
 bus:
   trans-loc:

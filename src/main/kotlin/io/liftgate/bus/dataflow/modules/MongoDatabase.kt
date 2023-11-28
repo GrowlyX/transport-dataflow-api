@@ -5,7 +5,7 @@ import com.mongodb.client.MongoCollection
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 import io.liftgate.bus.dataflow.models.database.TransportationEvent
-import org.litote.kmongo.getCollection
+import org.litote.kmongo.*
 import org.litote.kmongo.serialization.SerializationClassMappingTypeService
 
 /**
@@ -31,8 +31,5 @@ fun Application.configureMongoDatabase()
             ?: throw IllegalStateException("No database name defined")
     )
 
-    collection = database.getCollection<TransportationEvent>(
-        config.tryGetString("collection")
-            ?: throw IllegalStateException("No collection name defined")
-    )
+    collection = database.getCollection<TransportationEvent>().withKMongo()
 }
