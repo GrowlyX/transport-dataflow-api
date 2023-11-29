@@ -5,6 +5,10 @@ ktor:
   deployment:
     port: 8080
 
+api:
+  # use openssl rand -base64 48 to generate a new auth token. used for API req auth
+  auth-token: "uoTEFoddcvpZ0+bE2ywYAAVdA0ZIKtSzK/Bflpods1z/8MZY1VtTJvC/R1v4Gj9"
+
 mongo:
   connection-uri: "mongodb://localhost"
   database: "transport-dataflow"

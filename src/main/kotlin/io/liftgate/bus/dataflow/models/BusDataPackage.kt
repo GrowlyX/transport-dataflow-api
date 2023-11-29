@@ -8,6 +8,5 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class BusDataPackage(
-    val busId: String,
     val humansDetected: Int
 )
