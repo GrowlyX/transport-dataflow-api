@@ -22,10 +22,10 @@ fun Application.configureAuthentication()
             validate { credentials ->
                 if (credentials.password == requestAPIKey)
                 {
-                    UserIdPrincipal(credentials.name)
+                    return@validate UserIdPrincipal(credentials.name)
                 }
 
-                null
+                return@validate null
             }
         }
     }

@@ -8,6 +8,7 @@ import io.ktor.server.routing.*
 import io.liftgate.bus.dataflow.models.BusDataPackage
 import io.liftgate.bus.dataflow.models.database.TransportationEvent
 import io.liftgate.bus.dataflow.vehicleMetadataProvider
+import kotlinx.serialization.Serializable
 
 fun Application.configureRouting()
 {
@@ -15,8 +16,13 @@ fun Application.configureRouting()
         authenticate("vehicle-id-apikey") {
             route("/api/v1/") {
                 route("datastore") {
-                    get("/get-all") {
-                        call.respond(mapOf("coming" to "soon"))
+                    @Serializable
+                    data class EventResponse(val data: List<TransportationEvent>)
+
+                    get("get-all") {
+                        call.respond(EventResponse(
+                            data = collection.find().toList()
+                        ))
                     }
                 }
 
