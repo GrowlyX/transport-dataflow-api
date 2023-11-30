@@ -14,27 +14,35 @@ fun Application.configureRouting()
     routing {
         authenticate("vehicle-id-apikey") {
             route("/api/v1/") {
-                post("submit-data-package") {
-                    val dataPackage = context.receive<BusDataPackage>()
-                    val busId = call.principal<UserIdPrincipal>()
-                        ?: throw IllegalStateException(
-                            "No vehicle ID passed in to call"
-                        )
-                    val matchingVehicle = vehicleMetadataProvider.getCachedVehicles()[busId.name]
-                        ?: return@post call.respond(mapOf(
-                            "error" to "no vehicle metadata found for bus ${busId.name}"
+                route("datastore") {
+                    get("/get-all") {
+                        call.respond(mapOf("coming" to "soon"))
+                    }
+                }
+
+                route("dataflow") {
+                    post("submit") {
+                        val dataPackage = context.receive<BusDataPackage>()
+                        val busId = call.principal<UserIdPrincipal>()
+                            ?: throw IllegalStateException(
+                                "No vehicle ID passed in to call"
+                            )
+                        val matchingVehicle = vehicleMetadataProvider.getCachedVehicles()[busId.name]
+                            ?: return@post call.respond(mapOf(
+                                "error" to "no vehicle metadata found for bus ${busId.name}"
+                            ))
+
+                        collection.insertOne(TransportationEvent(
+                            busId = busId.name,
+                            timestamp = System.currentTimeMillis(),
+                            geolocation = matchingVehicle.location,
+                            passengerData = mapOf(
+                                "passengers" to "${dataPackage.humansDetected}"
+                            )
                         ))
 
-                    collection.insertOne(TransportationEvent(
-                        busId = busId.name,
-                        timestamp = System.currentTimeMillis(),
-                        geolocation = matchingVehicle.location,
-                        passengerData = mapOf(
-                            "passengers" to "${dataPackage.humansDetected}"
-                        )
-                    ))
-
-                    call.respond(mapOf("success" to "true"))
+                        call.respond(mapOf("success" to "true"))
+                    }
                 }
             }
         }
