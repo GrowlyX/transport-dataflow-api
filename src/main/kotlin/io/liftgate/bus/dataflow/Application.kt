@@ -15,6 +15,7 @@ fun Application.module()
 {
     configureVehicleMetadataProvider()
     configureMongoDatabase()
+    configureAuthentication()
     configureMonitoring()
     configureSerialization()
     configureRouting()
