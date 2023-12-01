@@ -6,6 +6,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.liftgate.bus.dataflow.models.BusDataPackage
+import io.liftgate.bus.dataflow.models.database.Records
 import io.liftgate.bus.dataflow.models.database.TransportationEvent
 import io.liftgate.bus.dataflow.vehicleMetadataProvider
 import kotlinx.serialization.Serializable
@@ -27,6 +28,10 @@ fun Application.configureRouting()
                 }
 
                 route("dataflow") {
+                    get("metrics") {
+                        call.respond(appMicrometerRegistry.scrape())
+                    }
+
                     post("submit") {
                         val dataPackage = context.receive<BusDataPackage>()
                         val busId = call.principal<UserIdPrincipal>()
@@ -42,8 +47,8 @@ fun Application.configureRouting()
                             busId = busId.name,
                             timestamp = System.currentTimeMillis(),
                             geolocation = matchingVehicle.location,
-                            passengerData = mapOf(
-                                "passengers" to "${dataPackage.humansDetected}"
+                            passengerData = Records(
+                                totalPassengers = dataPackage.humansDetected
                             )
                         ))
 

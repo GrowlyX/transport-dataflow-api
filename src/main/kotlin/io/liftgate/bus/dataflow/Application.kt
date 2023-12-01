@@ -15,10 +15,12 @@ fun Application.module()
 {
     configureVehicleMetadataProvider()
     configureMongoDatabase()
+
     configureAuthentication()
     configureMonitoring()
     configureSerialization()
     configureRouting()
+    configureMicrometerMetrics()
 }
 
 fun Application.busConfig() = environment.config.config("bus")

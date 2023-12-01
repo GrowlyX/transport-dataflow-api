@@ -15,11 +15,12 @@ data class TransportationEvent(
     val busId: String,
     val timestamp: Long,
     val geolocation: Geolocation,
-    /**
-     * Allows us to expand in the future with additional data from detection
-     * rather than having to change the schema entirely.
-     */
-    val passengerData: Map<String, String>,
+    val passengerData: Records,
     @SerialName("_id")
     val uniqueId: @Serializable(with = UUIDSerializer::class) UUID = UUID.randomUUID()
+)
+
+@Serializable
+data class Records(
+    val totalPassengers: Int
 )
