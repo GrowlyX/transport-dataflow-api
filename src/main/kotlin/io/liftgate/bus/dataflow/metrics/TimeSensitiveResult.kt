@@ -16,17 +16,11 @@ class TimeSensitiveResult(
     private vararg val aggregation: Bson
 )
 {
-    private var previousTime = System.currentTimeMillis()
     fun compute(): Number
     {
-        if (System.currentTimeMillis() - previousTime > threshold.toMillis())
-        {
-            previousTime = System.currentTimeMillis() - threshold.toMillis()
-        }
-
         val result = collection.aggregate<NumberResult>(
             match(
-                TransportationEvent::timestamp gte previousTime,
+                TransportationEvent::timestamp gte System.currentTimeMillis() - threshold.toMillis(),
                 TransportationEvent::timestamp lte System.currentTimeMillis()
             ),
             *aggregation,
@@ -35,8 +29,6 @@ class TimeSensitiveResult(
             ),
             limit(1)
         )
-
-        previousTime = System.currentTimeMillis()
 
         return result.first()?.total ?: 0
     }

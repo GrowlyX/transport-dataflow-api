@@ -17,7 +17,6 @@ fun Application.module()
     configureMongoDatabase()
 
     configureAuthentication()
-    configureMonitoring()
     configureSerialization()
     configureRouting()
     configureMicrometerMetrics()

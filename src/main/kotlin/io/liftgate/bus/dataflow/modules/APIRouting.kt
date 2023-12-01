@@ -1,5 +1,6 @@
 package io.liftgate.bus.dataflow.modules
 
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
@@ -14,6 +15,16 @@ import kotlinx.serialization.Serializable
 fun Application.configureRouting()
 {
     routing {
+        get("metrics") {
+            if (call.request.local.remoteHost != "localhost")
+            {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
+
+            call.respond(appMicrometerRegistry.scrape())
+        }
+
         authenticate("vehicle-id-apikey") {
             route("/api/v1/") {
                 route("datastore") {
@@ -28,10 +39,6 @@ fun Application.configureRouting()
                 }
 
                 route("dataflow") {
-                    get("metrics") {
-                        call.respond(appMicrometerRegistry.scrape())
-                    }
-
                     post("submit") {
                         val dataPackage = context.receive<BusDataPackage>()
                         val busId = call.principal<UserIdPrincipal>()

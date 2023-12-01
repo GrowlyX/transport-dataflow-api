@@ -3,11 +3,11 @@ ktor:
     modules:
       - io.liftgate.bus.dataflow.ApplicationKt.module
   deployment:
-    port: 8080
+    port: 2550
 
 api:
   # use openssl rand -base64 48 to generate a new auth token. used for API req auth
-  auth-token: "uoTEFoddcvpZ0+bE2ywYAAVdA0ZIKtSzK/Bflpods1z/8MZY1VtTJvC/R1v4Gj9"
+  auth-token: "J7a/YClg6ju40+pCvmYMNB3wFCtwraT07wItEFhTrTzhjTGY5g36uHLNd2nzKFyQ"
 
 mongo:
   connection-uri: "mongodb://localhost"
