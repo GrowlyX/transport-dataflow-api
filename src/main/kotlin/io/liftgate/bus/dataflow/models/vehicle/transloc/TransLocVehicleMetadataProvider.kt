@@ -49,7 +49,7 @@ class TransLocVehicleMetadataProvider(
         synchronized(cacheMutBlock) {
             localVehicleCache.clear()
             localVehicleCache += response.data.values
-                .reduce { acc, vehicles -> acc + vehicles }
+                .flatten()
                 .associateBy { it.vehicleId }
         }
     }
