@@ -7,4 +7,4 @@ import kotlinx.serialization.Serializable
  * @since 11/30/2023
  */
 @Serializable
-data class NumberResult(val total: Int)
+data class NumericalValue(val value: Double)

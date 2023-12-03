@@ -20,19 +20,19 @@ class TransportationMetrics : MeterBinder
 {
     override fun bindTo(registry: MeterRegistry)
     {
-        val totalPersons = TimeSensitiveResult(
-            Duration.ofSeconds(5L),
+        val averagePersonsLast10s = TimeSensitiveResult(
+            Duration.ofSeconds(10L),
             addFields(
                 Field(
-                    "total",
-                    "sum".projection from TransportationEvent::passengerData / Records::totalPassengers
+                    "value",
+                    "avg".projection from TransportationEvent::passengerData / Records::totalPassengers
                 )
             )
         )
 
         Gauge
-            .builder("transportation.persons.count.total", totalPersons::compute)
-            .description("The total number of persons on all registered vehicles")
+            .builder("transportation.persons.count.average", averagePersonsLast10s::compute)
+            .description("The average number of persons on all registered vehicles in the last 10s")
             .register(registry)
     }
 }

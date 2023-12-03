@@ -1,6 +1,5 @@
 package io.liftgate.bus.dataflow.metrics
 
-import com.mongodb.client.AggregateIterable
 import io.liftgate.bus.dataflow.models.database.TransportationEvent
 import io.liftgate.bus.dataflow.modules.collection
 import org.bson.conversions.Bson
@@ -18,18 +17,18 @@ class TimeSensitiveResult(
 {
     fun compute(): Number
     {
-        val result = collection.aggregate<NumberResult>(
+        val result = collection.aggregate<NumericalValue>(
             match(
                 TransportationEvent::timestamp gte System.currentTimeMillis() - threshold.toMillis(),
                 TransportationEvent::timestamp lte System.currentTimeMillis()
             ),
             *aggregation,
             project(
-                NumberResult::total from NumberResult::total
+                NumericalValue::value from NumericalValue::value
             ),
             limit(1)
         )
 
-        return result.first()?.total ?: 0
+        return result.first()?.value ?: 0
     }
 }
